@@ -106,13 +106,63 @@ getNumber().then(
     }
 )
 // 运行getNumber() 得到一个Promise对象 执行then方法
+// then 方法接受两个参数 第一个对应resolve的回调 第二个对应reject的回调。
 
+/**
+ Promise除了then方法之外 还有catch方法
+ 用法： 和then的第二个参数一样 用来指定reject的回调
 
-// 包装成一个函数 有什么意义
-// 执行这个函数 得到了一个Promise对象 并且可以使用Promise的then和catch方法
+ */
 
+getNumber().then(function(data){
+    console.log("resolved")
+    console.log(data)
+}).catch(function(reason){
+    console.log("rejected")
+    console.log(reason)
+})
+/**
+ * 为什么要使用catch
+ 在执行resolve的回调函数时，如果抛出异常了，代码出错了，那么并不会报错卡死js，而是会进到catch里面
+ */
 
+getNumber().then(function(data){
+    console.log("resolved")
+    console.log(data)
+    console.log(somedata)// somedata 未定义  而且把错误传到了catch里面
+}).catch(function(reason){
+    console.log("rejected")
+    console.log(reason)
+})
+/**
+ * all的用法
+ Promise的all方法  提供了 并行执行异步操作的能力  并且在所有异步操作执行完后才进行回调
+ */
+Promise
+.all([getNumber1(),getNumber2(),getNumber3()])
+.then(function(results){
+    console.log(results)
+})
+// all 方法接收一个数组参数， 里面的值最终都返回给Promise对象 这样 三个异步操作是并行执行的，等他们都执行完 才会进到then里面
+// 三个异步操作的数据 都在then里面，all会把所有异步操作的结果都放进一个数组中传给then 就是上面的results
 
+/**
+ * race的用法 
+ * all方法的效果 实际上 是 谁跑得慢 以谁为准执行回调  
+ * 相对的 就有一个方法 谁跑的快 以谁为准 执行回调
+ * 这就是race方法 
+ */
+// race的使用场景 : 用race给某个请求设置超时时间，并且在超时后执行相应的操作
+Promise
+.race([requestImg(), timeout()])
+.then(function(results){
+    console.log(results);
+})
+.catch(function(reason){
+    console.log(reason);
+});
+// requestImg() 是请求图片的操作  
+// timeout()  设置请求超时之后 做的操作
 
 
 
