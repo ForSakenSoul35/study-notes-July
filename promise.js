@@ -164,6 +164,50 @@ Promise
 // requestImg() 是请求图片的操作  
 // timeout()  设置请求超时之后 做的操作
 
+/**
+ * 
+ * Promise
+ */
+// 传统异步操作
+var wait = function(){
+    var task = function(){
+        console.log("执行完成")
+    }
+    setTimeout(task,2000)
+}
+wait()
+// 使用promise封装
+var waitPromise = function(){
+    // 定义一个promise对象
+    const promise = new Promise(function(resolve,reject){
+        // 在这个promise对象中  编写异步的操作
+        const task = function(){
+            console.log("异步操作")
+            resolve() // callback 中去执行resolve或者reject
+            // 在异步操作的内部 执行resolve() 或者reject()  表示成功 或者失败  
+            // 为什么？
+        }
+        setTimeout(task,2000)
+        
+    })
+    // 最终返回promise
+    return promise
+}
+const w = waitPromise()
+// 执行waitPromise()  返回一个promise对象 
+// promise对象拥有then方法 
+w.then(()=>{
+    console.log("ok1")
+},()=>{
+    console.log("error1")
+}).then(()=>{
+    console.log("ok2")
+},()=>{
+    console.log("error2")
+})
+// then 方法接收两个参数 第一个在成功时触发 第二个在失败时触发
+// 而且 then还可以进行链式操作
+
 
 
 
