@@ -1,3 +1,5 @@
+import { fstat } from "fs";
+
 /** Generator 简介
  * 
  */
@@ -50,3 +52,41 @@ function* getDta(){
  * 4. Genrator返回的也是Iterator对象
  */
 
+/**
+ * 1. 简介Symbol数据类型
+ * 是一个特殊的数据类型 和number，string并列
+ * [Symbol.itearator]是一个特殊的数据类型 可以作为对象的属性key来使用
+ */
+/**
+ * 
+ * 在ES6中 具有 [Symbol.iterator]属性类型的有 数组  类似数组的对象 Set和Map
+ * 特点  可以使用for..of 来遍历
+ * iterator对象，那么就可以使用next()和for...of进行操作
+ */
+/**
+ * Generator的具体应用
+ * 1. next和yield参数传递
+ * 2. for..of 的应用
+ * 3. yield* 语句
+ * 4. Generator中的this Generator 不是函数，更不是构造函数 Generator返回的是一个Iterator对象。
+ */
+/**
+ * 1. next和yield参数传递
+ * 方向1  yield->next  yield 会返回数据 返回的数据可以在next中接收
+ * 方向2  next->yield 
+ * 会停留在yield语句 
+ * 有一个要点需要注意，就g.next('aaa')是将'aaa'传递给上一个已经执行完了的yield语句前面的变量
+ * ，而不是即将执行的yield前面的变量。这句话要能看明白，看不明白就说明刚才的代码你还没看懂，继续看
+ */
+
+
+const thunk = function(fileName,codeType) {
+    // 返回一个只接受callback参数的函数
+    return function(callback) {
+        fs.readFile(fileName,codeType,callback)
+    }
+}
+const readFileThunk = thunk('data1.json','utf-8')
+readFileThunk((data,err)=>{
+    // ···
+})
